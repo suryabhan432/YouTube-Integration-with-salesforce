@@ -1,0 +1,94 @@
+<template>
+    <lightning-card title="Get YouTube videos">
+        <div class="slds-size_2-of-4">
+            <lightning-input type="text" 
+            label="Search You Tube video" 
+            onchange={searchHandler}>
+        </lightning-input>
+        </div>
+
+        <div class="slds-size_1-of-4">
+            <lightning-button label="Search"
+            variant="success"
+            onclick={fetchSearchKeyword}>
+            </lightning-button>
+        </div>
+
+        <!-- show you tube data start here -->
+
+
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="slds-size_1-of-4" scope="col">
+                        <div class="slds-truncate">You Tube Video Thumnail</div>
+                    </th>
+                    <th class="slds-size_3-of-4" scope="col">
+                        <div class="slds-truncate slds-text-center">Video Information</div>
+                    </th>
+                </tr>
+            </thead>
+            <template for:each={data} for:item="da">
+                <tbody key={da.id}>
+                    <tr>
+                        <td class="slds-size_1-of-4" scope="col">
+                               <img src={da.snippet.thumbnails.medium.url} name={da.id.videoId} onclick={imageHandler}>
+                        </td>
+                        <td class="slds-size_3-of-4">
+                            <p>{da.snippet.title}</p><br>
+                            <p>{da.snippet.description}</p>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </template>
+        </table>
+        <!-- show you tube data end here -->
+
+
+<!-- show video information start hare -->
+        <template if:true={isVisible}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_small">
+                <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Video Statistics</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <template for:each={videoDetail} for:item="video">
+                            <thead key={video.id}>
+                                <tr >
+                                    <th class="slds-size_2-of-4">viewCount</th>
+                                    <td class="slds-size_2-of-4">{video.statistics.viewCount}</td>
+                                </tr>
+                                <tr >
+                                    <th class="slds-size_2-of-4">likeCount</th>
+                                    <td class="slds-size_2-of-4">{video.statistics.likeCount}</td>
+                                </tr>
+                                <tr >
+                                    <th class="slds-size_2-of-4">favoriteCount</th>
+                                    <td class="slds-size_2-of-4">{video.statistics.favoriteCount}</td>
+                                </tr>
+                                <tr >
+                                    <th class="slds-size_2-of-4">commentCount</th>
+                                    <td class="slds-size_2-of-4">{video.statistics.commentCount}</td>
+                                </tr>
+                            </thead>
+                        </template>
+                    </table>
+                </div>
+                <div class="slds-modal__footer">
+                <button class="slds-button slds-button_destructive" onclick={cancleHandler}>Cancel</button>
+                </div>
+                </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+<!-- show video information end hare -->
+
+    </lightning-card>
+</template>
+
+
+
+
